@@ -1,7 +1,5 @@
 table = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
 
-
-
 game = True
 player1 = True
 player2 = False
@@ -17,84 +15,23 @@ def print_table():
           f" {table[6]} | {table[7]} | {table[8]} ")
 
 
-def check_win_for_x():
-    global game
-    if table[0] == "X" and table[1] == "X" and table[2] == "X":
-        print("Player 1 Has Won!")
-        game = False
-        return True
-    elif table[3] == "X" and table[4] == "X" and table[5] == "X":
-        print("Player 1 Has Won!")
-        game = False
-        return True
-    elif table[6] == "X" and table[7] == "X" and table[8] == "X":
-        print("Player 1 Has Won!")
-        game = False
-        return True
-    elif table[0] == "X" and table[3] == "X" and table[6] == "X":
-        print("Player 1 Has Won!")
-        game = False
-        return True
-    elif table[1] == "X" and table[4] == "X" and table[7] == "X":
-        print("Player 1 Has Won!")
-        game = False
-        return True
-    elif table[2] == "X" and table[5] == "X" and table[8] == "X":
-        print("Player 1 Has Won!")
-        game = False
-        return True
-    elif table[0] == "X" and table[4] == "X" and table[8] == "X":
-        print("Player 1 Has Won!")
-        game = False
-        return True
-    elif table[2] == "X" and table[4] == "X" and table[6] == "X":
-        print("Player 1 Has Won!")
-        game = False
-        return True
-    elif table[0] != " " and table[1] != " " and table[2] != " " and table[3] != " " and table[4] != " " and table[5] != " " and table[6] != " " and table[7] != " " and table[8] != " ":
-        print("It's a draw!")
-        game = False
-        return True
+winning_combinations = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],  # rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],  # columns
+    [0, 4, 8], [2, 4, 6]  # diagonals
+]
 
 
-def check_win_for_o():
-    global game
-    if table[0] == "O" and table[1] == "O" and table[2] == "O":
-        print("Player 2 Has Won!")
-        game = False
-        return True
-    elif table[3] == "O" and table[4] == "O" and table[5] == "O":
-        print("Player 2 Has Won!")
-        game = False
-        return True
-    elif table[6] == "O" and table[7] == "O" and table[8] == "O":
-        print("Player 2 Has Won!")
-        game = False
-        return True
-    elif table[0] == "O" and table[3] == "O" and table[6] == "O":
-        print("Player 2 Has Won!")
-        game = False
-        return True
-    elif table[1] == "O" and table[4] == "O" and table[7] == "O":
-        print("Player 2 Has Won!")
-        game = False
-        return True
-    elif table[2] == "O" and table[5] == "O" and table[8] == "O":
-        print("Player 2 Has Won!")
-        game = False
-        return True
-    elif table[0] == "O" and table[4] == "O" and table[8] == "O":
-        print("Player 2 Has Won!")
-        game = False
-        return True
-    elif table[2] == "O" and table[4] == "O" and table[6] == "O":
-        print("Player 2 Has Won!")
-        game = False
-        return True
-    elif table[0] != " " and table[1] != " " and table[2] != " " and table[3] != " " and table[4] != " " and table[5] != " " and table[6] != " " and table[7] != " " and table[8] != " ":
-        print("It's a draw!")
-        game = False
-        return True
+def check_win(player):
+    for combination in winning_combinations:
+        if all(table[i] == player for i in combination):
+            print(f"\n{player} has won!")
+            return True
+    return False
+
+
+def check_draw():
+    return all(cell != " " for cell in table)
 
 
 # If none of the players have won repeat this.
@@ -118,12 +55,20 @@ while game:
                 player1 = False
 
                 # Check if player 1 has won.
-                if check_win_for_x():
+                if check_win("X"):
                     # Print out the table if player 1 has won.
                     print_table()
+                    break
                 else:
                     # If he hasn't, make it player 2's turn
                     player2 = True
+
+                # Check if it's a draw
+                if check_draw():
+                    # Print out the table if it's a draw.
+                    print_table()
+                    print("It's a draw!")
+                    break
             else:
                 print("\nYou can't place it there. Try again.")
 
@@ -137,13 +82,20 @@ while game:
                 player1 = False
 
                 # Check if player 1 has won.
-                if check_win_for_x():
+                if check_win("X"):
                     # Print out the table if player 1 has won.
                     print_table()
+                    break
                 else:
                     # If he hasn't, make it player 2's turn
                     player2 = True
 
+                # Check if it's a draw
+                if check_draw():
+                    # Print out the table if it's a draw.
+                    print_table()
+                    print("It's a draw!")
+                    break
             else:
                 print("\nYou can't place it there. Try again.")
 
@@ -157,13 +109,20 @@ while game:
                 player1 = False
 
                 # Check if player 1 has won.
-                if check_win_for_x():
+                if check_win("X"):
                     # Print out the table if player 1 has won.
                     print_table()
+                    break
                 else:
                     # If he hasn't, make it player 2's turn
                     player2 = True
 
+                # Check if it's a draw
+                if check_draw():
+                    # Print out the table if it's a draw.
+                    print_table()
+                    print("It's a draw!")
+                    break
             else:
                 print("\nYou can't place it there. Try again.")
         else:
@@ -186,14 +145,21 @@ while game:
                 table[int(o[2])] = "O"
                 player2 = False
 
-                # Check if player 2 has won
-                if check_win_for_o():
+                # Check if player 1 has won.
+                if check_win("O"):
                     # Print out the table if player 2 has won.
                     print_table()
+                    break
                 else:
                     # If he hasn't, make it player 1's turn
                     player1 = True
 
+                # Check if it's a draw
+                if check_draw():
+                    # Print out the table if it's a draw.
+                    print_table()
+                    print("\nIt's a draw!")
+                    break
             else:
                 print("\nYou can't place it there. Try again.")
 
@@ -205,14 +171,21 @@ while game:
                 table[int(o[2]) + 3] = "O"
                 player2 = False
 
-                # Check if player 2 has won
-                if check_win_for_o():
+                # Check if player 2 has won.
+                if check_win("O"):
                     # Print out the table if player 2 has won.
                     print_table()
+                    break
                 else:
                     # If he hasn't, make it player 1's turn
                     player1 = True
 
+                # Check if it's a draw
+                if check_draw():
+                    # Print out the table if it's a draw.
+                    print_table()
+                    print("\nIt's a draw!")
+                    break
             else:
                 print("\nYou can't place it there. Try again.")
 
@@ -224,13 +197,21 @@ while game:
                 table[int(o[2]) + 6] = "O"
                 player2 = False
 
-                # Check if player 2 has won
-                if check_win_for_o():
+                # Check if player 2 has won.
+                if check_win("O"):
                     # Print out the table if player 2 has won.
                     print_table()
+                    break
                 else:
                     # If he hasn't, make it player 1's turn
                     player1 = True
+
+                # Check if it's a draw
+                if check_draw():
+                    # Print out the table if it's a draw.
+                    print_table()
+                    print("\nIt's a draw!")
+                    break
 
             else:
                 print("\nYou can't place it there. Try again.")
